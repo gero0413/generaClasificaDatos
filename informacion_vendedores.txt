@@ -1,5 +1,3 @@
-CC;689057640;María;Pérez
-CC;499252169;Pedro;Gómez
-CC;150192441;Carlos;Pérez
-CC;272438798;Juan;Rodríguez
-CC;743680051;Carlos;Pérez
+CC;592542337;Carlos;García
+CC;458265534;Lucía;Gómez
+CC;257563110;Pedro;López
