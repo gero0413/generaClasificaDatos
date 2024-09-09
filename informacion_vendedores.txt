@@ -1,3 +1,0 @@
-CC;592542337;Carlos;García
-CC;458265534;Lucía;Gómez
-CC;257563110;Pedro;López

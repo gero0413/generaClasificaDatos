@@ -14,7 +14,7 @@ public class GenerateInfoFiles {
     // Método para generar un archivo de ventas de un vendedor
     public static void createSalesMenFile(int randomSalesCount, String name, long id) {
         String fileName = "ventas_" + id + ".txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Files/"+fileName))) {
             writer.write("CC;" + id + "\n");
             Random rand = new Random();
             for (int i = 0; i < randomSalesCount; i++) {
@@ -31,7 +31,7 @@ public class GenerateInfoFiles {
     // Método para generar un archivo de productos
     public static void createProductsFile(int productsCount) {
         String fileName = "productos.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Files/"+fileName))) {
             Random rand = new Random();
             for (int i = 0; i < productsCount; i++) {
                 int productId = i + 1;
@@ -49,7 +49,7 @@ public class GenerateInfoFiles {
     public static Map<String, Long> createSalesManInfoFile(int salesmanCount) {
         String fileName = "informacion_vendedores.txt";
         Map<String, Long> listSalesMan = new HashMap<>();
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Files/"+fileName))) {
             Random rand = new Random();
             for (int i = 0; i < salesmanCount; i++) {
                 String nombre = nombres[rand.nextInt(nombres.length)];
@@ -65,20 +65,44 @@ public class GenerateInfoFiles {
         }
         return listSalesMan;
     }
+    
+    public static void clearFolderFiles() {
+    	File carpeta = new File("Files/");
+    	File[] archivos = carpeta.listFiles();
+    	if (archivos != null && archivos.length > 0) {
+    		for (File archivo : archivos) {
+    			if (archivo.isFile()) {
+    				boolean valDelete = archivo.delete();
+    				if (!valDelete) {
+    					System.out.println("Error al eliminar el archivo: " + archivo.getName());
+    				}
+    			}
+    		}
+    		System.out.println("El directorio ya esta vacio");
+    	} else {
+    		System.out.println("El directorio ya esta vacio");
+    	}
+    	
+    }
 
     public static void main(String[] args) {
+    	
+    	clearFolderFiles();
+    	    	
     	//Crear diccionario
     	Map<String, Long> listSalesMan = new HashMap<>();
     	
         // Prueba de los métodos para generar los archivos
         createProductsFile(50);
-        listSalesMan = createSalesManInfoFile(3);
+        listSalesMan = createSalesManInfoFile(5);
         
         for (Map.Entry<String, Long> item : listSalesMan.entrySet()) {
         	Long idSalesMan = item.getValue();
         	String nameSalesMan = item.getKey();
         	createSalesMenFile(10, nameSalesMan, idSalesMan);
         }
+        
+        
         
     }
 }
