@@ -7,16 +7,48 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+    	
+    	//Creacion de archivos planos con clase GenerateIntoFiles
+    	GenerateInfoFiles crearArchivosPlanos = new GenerateInfoFiles();
+    	
+    	//Definir cantidad de productos
+    	int cantProds = 50;
+    	
+    	//Eliminar todos los archivos previos
+    	GenerateInfoFiles.clearFolderFiles("Files/");
+    	
+    	//Eliminar todos los reportes previos
+    	GenerateInfoFiles.clearFolderFiles("Reports/");
+    	    	
+    	//Crear diccionario para recibir lista vendedores
+    	Map<String, Long> listSalesMan = new HashMap<>();
+    	
+        // Prueba de los métodos para generar los archivos
+    	GenerateInfoFiles.createProductsFile(cantProds);
+        //Crear archivo de vendedores y almacenar lista de vendedores
+        listSalesMan = GenerateInfoFiles.createSalesManInfoFile(5);
+        
+        //Crear un archivo de ventas por cada vendedor
+        for (Map.Entry<String, Long> item : listSalesMan.entrySet()) {
+        	Long idSalesMan = item.getValue(); //asignar numero de documento
+        	String nameSalesMan = item.getKey();//asignar nombre
+        	//Crear archivo de ventas por vendedor
+        	GenerateInfoFiles.createSalesMenFile(10, nameSalesMan, idSalesMan, cantProds);
+        }    	    	
+    	//Creacion de archivos planos con clase GenerateIntoFiles
+    	
+        
+        // Generacion de reportes
         try {
             // Leer la información de los vendedores
-            List<Vendedor> vendedores = leerVendedores("vendedores.txt");
+            List<Vendedor> vendedores = leerVendedores("Files/vendedores.txt");
 
             // Leer la información de los productos
-            Map<String, Producto> productos = leerProductos("productos.txt");
+            Map<String, Producto> productos = leerProductos("Files/productos.txt");
 
             // Procesar las ventas de todos los archivos de ventas en una carpeta
-            File carpetaVentas = new File("carpetaVentas");
-            File[] archivosVentas = carpetaVentas.listFiles((dir, name) -> name.endsWith(".txt"));
+            File carpetaVentas = new File("Files");
+            File[] archivosVentas = carpetaVentas.listFiles((dir, name) -> name.startsWith("ventas_"));
 
             if (archivosVentas != null) {
                 for (File archivo : archivosVentas) {
@@ -25,10 +57,10 @@ public class Main {
             }
 
             // Generar el archivo con los vendedores ordenados por dinero recaudado
-            generarReporteVendedores(vendedores, "reporteVendedores.csv");
+            generarReporteVendedores(vendedores, "Reports/reporteVendedores.csv");
 
             // Generar el archivo con los productos vendidos por cantidad
-            generarReporteProductos(productos, "reporteProductos.csv");
+            generarReporteProductos(productos, "Reports/reporteProductos.csv");
 
             System.out.println("Proceso completado con éxito.");
 

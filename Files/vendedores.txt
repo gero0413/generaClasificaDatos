@@ -1,0 +1,5 @@
+CC;780604912;Maria;Martinez
+CC;715410438;Lucia;Lopez
+CC;478886807;Juan;Garcia
+CC;566990013;Lucia;Garcia
+CC;153031588;Ana;Martinez

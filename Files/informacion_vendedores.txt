@@ -1,5 +1,0 @@
-CC;109575889;Lucía;Pérez
-CC;329169144;Ana;García
-CC;625011765;Ana;López
-CC;676937763;Carlos;Pérez
-CC;888350696;Juan;López

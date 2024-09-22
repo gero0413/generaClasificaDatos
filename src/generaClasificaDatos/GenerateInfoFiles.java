@@ -8,17 +8,17 @@ import java.util.Map;
 public class GenerateInfoFiles {
 
     // Lista de nombres y apellidos para generar nombres de vendedores aleatorios
-    private static final String[] nombres = {"Juan", "María", "Pedro", "Lucía", "Carlos", "Ana"};
-    private static final String[] apellidos = {"Pérez", "Gómez", "Rodríguez", "López", "Martínez", "García"}; 
+    private static final String[] nombres = {"Juan", "Maria", "Pedro", "Lucia", "Carlos", "Ana"};
+    private static final String[] apellidos = {"Perez", "Gomez", "Rodriguez", "Lopez", "Martinez", "Garcia"}; 
     
     // Método para generar un archivo de ventas de un vendedor
-    public static void createSalesMenFile(int randomSalesCount, String name, long id) {
+    public static void createSalesMenFile(int randomSalesCount, String name, long id, int intCantProds) {
         String fileName = "ventas_" + id + ".txt"; //inicializar nombre archivo
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Files/"+fileName))) { //crear archivo y buffer para escribir en el mismo
             writer.write("CC;" + id + "\n"); //escribir primera linea del archivo
             Random rand = new Random(); // crear numero aleatorio
             for (int i = 0; i < randomSalesCount; i++) {
-                int productId = rand.nextInt(100) + 1; // ID aleatorio de producto
+                int productId = rand.nextInt(intCantProds) + 1; // ID aleatorio de producto
                 int cantidad = rand.nextInt(20) + 1;  // Cantidad aleatoria
                 writer.write(productId + ";" + cantidad + ";\n"); //escribir una fila en archivo plano con la estructura esperada
             }
@@ -47,7 +47,7 @@ public class GenerateInfoFiles {
 
     // Método para generar un archivo con información de vendedores
     public static Map<String, Long> createSalesManInfoFile(int salesmanCount) { //Metodo que returna lista de vendedores
-        String fileName = "informacion_vendedores.txt"; // definir archivo de vendedores
+        String fileName = "vendedores.txt"; // definir archivo de vendedores
         Map<String, Long> listSalesMan = new HashMap<>(); // definir lista para vendedores creados
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("Files/"+fileName))) { // crear archivo y buffer para escribir en el mismo
             Random rand = new Random(); // crear numero aleatorio
@@ -67,8 +67,8 @@ public class GenerateInfoFiles {
     }
     
     //Metodo para limpiar carpeta de archivos planos
-    public static void clearFolderFiles() {
-    	File carpeta = new File("Files/"); //definir carpeta de exportacion
+    public static void clearFolderFiles(String strPath) {
+    	File carpeta = new File(strPath); //definir carpeta de exportacion
     	File[] archivos = carpeta.listFiles(); // listar archivos de carpeta
     	if (archivos != null && archivos.length > 0) { //validar que la variable archivos no este nula
     		for (File archivo : archivos) {
@@ -79,23 +79,31 @@ public class GenerateInfoFiles {
     				}
     			}
     		}
-    		System.out.println("El directorio ya esta vacio");
+    		System.out.println("El directorio " + strPath + " ya esta vacio");
     	} else {
-    		System.out.println("El directorio ya esta vacio");
+    		System.out.println("El directorio " + strPath + " ya esta vacio");
     	}
     	
     }
 
     public static void main(String[] args) {
     	
+    	//Testing Files
+    	
+    	//Definir cantidad de productos
+    	int cantProds = 50;
+    	
     	//Eliminar todos los archivos previos
-    	clearFolderFiles();
+    	clearFolderFiles("Files/");
+    	
+    	//Eliminar todos los reportes previos
+        clearFolderFiles("Reports/");
     	    	
     	//Crear diccionario para recibir lista vendedores
     	Map<String, Long> listSalesMan = new HashMap<>();
     	
         // Prueba de los métodos para generar los archivos
-        createProductsFile(50);
+        createProductsFile(cantProds);
         //Crear archivo de vendedores y almacenar lista de vendedores
         listSalesMan = createSalesManInfoFile(5);
         
@@ -104,9 +112,9 @@ public class GenerateInfoFiles {
         	Long idSalesMan = item.getValue(); //asignar numero de documento
         	String nameSalesMan = item.getKey();//asignar nombre
         	//Crear archivo de ventas por vendedor
-        	createSalesMenFile(10, nameSalesMan, idSalesMan);
+        	createSalesMenFile(10, nameSalesMan, idSalesMan, cantProds);
         }
-        
+                
         
         
     }
